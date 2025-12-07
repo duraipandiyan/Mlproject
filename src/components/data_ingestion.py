@@ -4,6 +4,10 @@ import pandas as pd
 from src.exception import CustomException
 from src.logger import logging
 from sklearn.model_selection import train_test_split
+from src.components.data_transformation import DataTransformationConfig
+from src.components.data_transformation import DataTransformation
+
+from src.components.midel_trainer import ModelTrainerConfig,ModelTrainer
 
 from dataclasses import dataclass # this used to create a data class level variable
 
@@ -45,5 +49,12 @@ class DataIngestion:
         
 if __name__=='__main__':
     obj=DataIngestion()
-    obj.initiate_data_ingestion()
-            
+    train_data,test_data=obj.initiate_data_ingestion()
+    
+    obj_datatransformation=DataTransformation()
+    train_data,test_data=obj.initiate_data_ingestion()
+    train_arr,test_arry,_=obj_datatransformation.initiate_data_transformation(train_data,test_data)
+
+    modeltrainer=ModelTrainer()
+    res=modeltrainer.initate_model_trainer(train_arr,test_arry)
+    print(res)
