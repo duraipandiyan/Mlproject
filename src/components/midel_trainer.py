@@ -48,10 +48,56 @@ class ModelTrainer:
                 'SVR':SVR()
             }
             
+            # Hyper tuning for all models
+            
+            Parameter={
+                
+                "Random Forest":{ "max_features":[ "sqrt", "log2"],
+                                 "criterion":["squared_error", "absolute_error"]
+                    
+                },
+                
+                "Decision Tree":{
+                    "splitter":["best", "random"],
+                    "criterion":["squared_error", "friedman_mse"]
+                },
+                
+                'Gradient Boosting':{
+                    "criterion":["friedman_mse", "squared_error"]
+                },
+                
+                "Linear Regressor":{
+                    
+                },
+                
+                'K-Neighbores Regressions':{
+                    "algorithm":["auto", "ball_tree", "kd_tree", "brute"],
+                    "weights":["uniform", "distance"]
+                },
+                'XGBoosting Regression':{
+                    'n_estimators': [100, 200, 300],
+                    'learning_rate': [0.01, 0.1, 0.2],
+                    'max_depth': [3, 5, 7],
+                },
+                'CatBoosting Regression':{
+                    'learning_rate': [0.03, 0.1],
+                    'depth': [4, 6, 8],
+                    'l2_leaf_reg': [1, 3]
+                },
+                "AdaBoost Regression":{
+                            'n_estimators': [50, 100, 200],
+                            'learning_rate': [0.01, 0.1, 1.0],
+                },
+                'SVR':{
+                    'C': [0.1, 1, 10, 100],
+                    'epsilon': [0.01, 0.1, 0.5],
+                }
+            }
+            
         
             
             model_report:dict=evaluate_models(X_train=X_train,Y_train=Y_train,
-                                              X_test=X_test,Y_test=Y_test,models=models)
+                                              X_test=X_test,Y_test=Y_test,models=models,Parameter=Parameter)
             # Best model score
             best_model_score=max(sorted(model_report.values()))
             for mod_name,score in model_report.items():
