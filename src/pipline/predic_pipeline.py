@@ -13,7 +13,7 @@ class PredictPipelie:
             preprocessor_path='artfacts\preprocessor.pkl'
             model=load_object(file_path=model_path)
             preprocessor=load_object(file_path=preprocessor_path)
-            data_scaled=preprocessor.transform(features)
+            data_scaled=preprocessor.transform(features) # processor obj already have preprocessed so we no need to fit_transform . we just need to transform so that we will get perfect mean value
             preds=model.predict(data_scaled)
             
             return preds
